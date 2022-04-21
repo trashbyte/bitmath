@@ -1,8 +1,8 @@
 # bitmath
 
-Tools for arbitrary-width bitwise arithmetic.
+Tools for arbitrary-width bitwise arithmetic. Originally designed for writing fantasy console/cpu emulators.
 
-Unstable. Use at your own risk.
+Unstable. WIP. Use at your own risk.
 
 ### `Bits<N>`
 
@@ -18,7 +18,7 @@ println!("result: {}, overflowed: {}", result, overflowed);
 // result: Bits<3>{ 011 | dec 3/3 | hex 0x3/0x3 }, overflowed: true
 ```
 
-Or you can take a subset of `Bits` using conventional bitwise syntax using the `bitslice!` macro:
+Or you can take a subset of `Bits` with conventional bitwise syntax using the `bitslice!` macro:
 ```rs
 let word = Bits::<16>::try_from("1011 0001 0110 1011").unwrap();
 let high_byte = bitslice!(word[15:8]);

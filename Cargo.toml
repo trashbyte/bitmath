@@ -3,10 +3,16 @@ name = "bitmath"
 version = "0.0.1"
 edition = "2021"
 author = "trashbyte"
+license = "MIT"
+description = "Tools for arbitrary-sized bitwise arithmetic"
+repository = "https://github.com/trashbyte/bitmath"
+readme = "README.md"
+keywords = ["bits", "width", "bitwise", "overflow", "twos_complement"]
+categories = ["data-structures", "emulators", "hardware-support", "mathematics"]
 
 [lib]
 name = "bitmath"
 path = "src/lib.rs"
 
 [dependencies]
-bitmath_macros = { git = "https://github.com/trashbyte/bitmath_macros" }
+bitmath_macros = { git = "https://github.com/trashbyte/bitmath_macros", version = "0.0.1" }
