@@ -1,0 +1,12 @@
+[package]
+name = "bitmath"
+version = "0.0.1"
+edition = "2021"
+author = "trashbyte"
+
+[lib]
+name = "bitmath"
+path = "src/lib.rs"
+
+[dependencies]
+bitmath_macros = { git = "https://github.com/trashbyte/bitmath_macros" }
