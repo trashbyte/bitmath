@@ -1,5 +1,3 @@
-pub use bitmath_macros::bitslice;
-
 use std::fmt::{Display, Formatter, LowerHex};
 use std::ops::{Index, IndexMut, Range, RangeInclusive};
 
@@ -24,7 +22,7 @@ pub enum BitsError {
     /// The given input string could not be parsed.
     InvalidInputString,
     /// The bit widths of the arguments are not equal (expected, found).
-    BitWidthMismatch(usize, usize),
+    BitWidthMismatch { expected: usize, found: usize },
     /// The provided bit number is outside the bounds of this value.
     BitIndexOutOfRange,
 }
@@ -96,7 +94,7 @@ impl<const SIZE: usize> Bits<SIZE> {
     /// This function requires that the slice width and the `Bits` width are identical.
     pub fn from_slice(slice: &[bool]) -> Result<Self, BitsError> {
         if slice.len() != SIZE {
-            return Err(BitsError::BitWidthMismatch(SIZE, slice.len()));
+            return Err(BitsError::BitWidthMismatch { expected: SIZE, found: slice.len() });
         }
         let mut copied = [false; SIZE];
         for i in 0..SIZE {
@@ -115,7 +113,7 @@ impl<const SIZE: usize> Bits<SIZE> {
             return Err(BitsError::BitIndexOutOfRange);
         }
         if width != SIZE {
-            return Err(BitsError::BitWidthMismatch(SIZE, width));
+            return Err(BitsError::BitWidthMismatch{ expected: SIZE, found: width});
         }
         let mut copied = [false; SIZE];
         for i in 0..SIZE {
@@ -343,5 +341,13 @@ impl <const N: usize> IndexMut<Range<usize>>for Bits<N> {
 impl <const N: usize> IndexMut<RangeInclusive<usize>>for Bits<N> {
     fn index_mut(&mut self, index: RangeInclusive<usize>) -> &mut Self::Output {
         &mut self.0[index]
+    }
+}
+
+/// convenience macro for indexing bitwise slices using `bits[7:0]` syntax
+#[macro_export]
+macro_rules! bitslice {
+    ($name:ident[$high:literal:$low:literal]) => {
+        bitmath::Bits::<{$high-$low+1}>::from_reverse_index(&$name.0,$high,$low).unwrap()
     }
 }
